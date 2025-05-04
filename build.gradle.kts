@@ -43,12 +43,12 @@ tasks.register("runBuild") {
   group = "github"
   description = "Build the project, and skip specific tasks."
   doLast {
-    File outFile = file("$buildDir/env/env.properties")
+    val outFile = file("$buildDir/env/env.properties")
     outFile.parentFile.mkdirs()
-    System.getenv().each { key, value ->
-        outFile.append("$key=$value\n")
-    }
-    println "✔"
+    System.getenv().forEach { (key, value) ->
+      outFile.appendText("$key=$value\n")
+      }
+    println("✔")
   }
 }
 
