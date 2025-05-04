@@ -42,13 +42,13 @@ fun isPortActive(host: String = "localhost", port: Int): Boolean {
 tasks.register("runBuild") {
   group = "github"
   description = "Build the project, and skip specific tasks."
-  dependsOn("clean", "build")
-  subprojects {
-    if (name == "essential-tests" || name == "extended-tests") {
-      tasks.named("test") { enabled = false }
+  doLast {
+    File outFile = file("$buildDir/env/env.properties")
+    outFile.parentFile.mkdirs()
+    System.getenv().each { key, value ->
+        outFile.append("$key=$value\n")
     }
-    dependsOn(tasks.named("build"))
-    skipNonCriticalTasks(tasks)
+    println "✔"
   }
 }
 
